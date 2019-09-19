@@ -14,7 +14,10 @@
     <PackageProjectUrl>https://github.com/observito/EventSourceFormatter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/observito/EventSourceFormatter</RepositoryUrl>
     <PackageTags>EventSource,Formatting,ETW,InProcess,Text</PackageTags>
-    <PackageReleaseNotes>Initial version.</PackageReleaseNotes>
+    <PackageReleaseNotes>Signed.</PackageReleaseNotes>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>key.pfx</AssemblyOriginatorKeyFile>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
