@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>Observito.Trace.EventSourceFormatter</AssemblyName>
+    <RootNamespace>Observito.Trace.EventSourceFormatter</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Observito</Authors>
+    <Product>EventSourceFormatter</Product>
+    <Description>Formatting for EventSource in-process event data (i.e. OnEventsWrittenEventArgs).</Description>
+    <Copyright>Observito 2019</Copyright>
+  </PropertyGroup>
+
+</Project>
