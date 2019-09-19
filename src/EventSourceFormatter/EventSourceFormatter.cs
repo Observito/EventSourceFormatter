@@ -13,6 +13,7 @@ namespace Observito.Trace.EventSourceFormatter
     {
         /// <summary>
         /// Format message.
+        /// TODO culture
         /// </summary>
         /// <param name="event">Event data</param>
         /// <param name="selector">Optional payload transformer</param>
@@ -45,6 +46,7 @@ namespace Observito.Trace.EventSourceFormatter
 
         /// <summary>
         /// Format message header.
+        /// TODO culture
         /// </summary>
         /// <param name="event">Event data</param>
         /// <param name="formatMessage">If true formats message part to include payload values</param>
@@ -72,6 +74,7 @@ namespace Observito.Trace.EventSourceFormatter
 
         /// <summary>
         /// Formats event payload data to a string.
+        /// TODO culture
         /// </summary>
         /// <param name="event">Event data</param>
         /// <param name="selector">Optional payload transformer</param>
@@ -96,6 +99,7 @@ namespace Observito.Trace.EventSourceFormatter
 
         /// <summary>
         /// Formats the event data to a string.
+        /// TODO culture
         /// </summary>
         /// <param name="event">Event data</param>
         /// <param name="includePayload">Include payload</param>

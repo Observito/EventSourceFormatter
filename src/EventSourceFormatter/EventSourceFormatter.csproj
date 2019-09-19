@@ -7,8 +7,21 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Observito</Authors>
     <Product>EventSourceFormatter</Product>
-    <Description>Formatting for EventSource in-process event data (i.e. OnEventsWrittenEventArgs).</Description>
+    <Title>EventSourceFormatter</Title>
+    <Description>Formatting for EventSource in-process event data (i.e. OnEventsWrittenEventArgs). Allows transformation and inclusion/exclusion of payload values.</Description>
     <Copyright>Observito 2019</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/observito/EventSourceFormatter</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/observito/EventSourceFormatter</RepositoryUrl>
+    <PackageTags>EventSource,Formatting,ETW,InProcess,Text</PackageTags>
+    <PackageReleaseNotes>Initial version.</PackageReleaseNotes>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\observito.opensource.eventsourceflightrecorder\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
