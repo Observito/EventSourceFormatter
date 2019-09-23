@@ -34,10 +34,15 @@ namespace Observito.Trace.EventSourceFormatter
         /// </summary>
         /// <param name="event">Event data</param>
         /// <param name="index">Payload index</param>
-        /// <returns>Payload result</returns>
-        public static Payload GetPayloadAt(this EventWrittenEventArgs @event, int index)
+        /// <param name="payload">Payload result if found</param>
+        /// <returns>True if found, false otherwise</returns>
+        public static bool TryGetPayloadAt(this EventWrittenEventArgs @event, int index, out Payload payload)
         {
-            if (index < 0) throw new ArgumentOutOfRangeException(nameof(index));
+            if (@event.Payload == null || index < 0 || index >= @event.PayloadNames.Count)
+            {
+                payload = default;
+                return false;
+            }
 
             var ctx = new Payload();
 
@@ -51,7 +56,9 @@ namespace Observito.Trace.EventSourceFormatter
             ctx.Name = @event.PayloadNames[index];
             ctx.Value = @event.Payload[index];
 
-            return ctx;
+            payload = ctx;
+
+            return true;
         }
 
         /// <summary>
@@ -61,6 +68,9 @@ namespace Observito.Trace.EventSourceFormatter
         /// <returns>Sequence of payload values</returns>
         public static IEnumerable<(int index, string name, object value)> EnumeratePayload(this EventWrittenEventArgs @event)
         {
+            if (@event.PayloadNames == null)
+                yield break;
+
             var index = 0;
             foreach (var name in @event.PayloadNames)
             {
@@ -81,12 +91,18 @@ namespace Observito.Trace.EventSourceFormatter
         /// <returns>Sequence of payload values</returns>
         public static IEnumerable<(int index, string name, TResult value)> EnumeratePayload<TResult>(this EventWrittenEventArgs @event, PayloadSelector<TResult> selector)
         {
+            if (selector is null) throw new ArgumentNullException(nameof(selector));
+
+            if (@event.PayloadNames == null)
+                yield break;
+
             var index = 0;
             foreach (var name in @event.PayloadNames)
             {
-                var payload = @event.GetPayloadAt(index);
+                var value = default(TResult);
 
-                var value = selector(payload);
+                if (@event.TryGetPayloadAt(index, out var payloadInfo))
+                    value = selector(payloadInfo);
 
                 yield return (index, name, value);
 

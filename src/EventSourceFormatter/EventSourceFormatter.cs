@@ -32,11 +32,24 @@ namespace Observito.Trace.EventSourceFormatter
             var sequentialPayloadValues = new List<object>();
             HandlePayloadUsages(@event, payloadIndex =>
             {
-                var value = selector == null
-                    ? @event.Payload[payloadIndex]
-                    : selector(@event.GetPayloadAt(payloadIndex));
+                try
+                {
+                    var value = default(object);
 
-                sequentialPayloadValues.Add(value);
+                    if (@event.TryGetPayloadAt(payloadIndex, out var payloadInfo))
+                    {
+                        if (selector == null)
+                            value = payloadInfo.Value;
+                        else
+                            value = selector(payloadInfo);
+                    }
+
+                    sequentialPayloadValues.Add(value);
+                }
+                catch (Exception ex)
+                {
+                    sequentialPayloadValues.Add($"PAYLOAD_ERROR({ex.Message}");
+                }
             });
 
             var args = sequentialPayloadValues.ToArray();
@@ -142,10 +155,17 @@ namespace Observito.Trace.EventSourceFormatter
 
         private static void DumpPayload(EventWrittenEventArgs @event, Dictionary<string, object> map, PayloadSelector<object> selector = null, string prefix = "@")
         {
-            var seq = selector == null ? @event.EnumeratePayload() : @event.EnumeratePayload(selector);
+            try
+            {
+                var seq = selector == null ? @event.EnumeratePayload() : @event.EnumeratePayload(selector);
 
-            foreach (var payload in seq)
-                map[$"{prefix ?? ""}{payload.name}"] = payload.value;
+                foreach (var payload in seq)
+                    map[$"{prefix ?? ""}{payload.name}"] = payload.value;
+            }
+            catch (Exception ex)
+            {
+                map[$"EventSourceFormatterError"] = ex.Message;
+            }
         }
 
         #region Internal helpers
