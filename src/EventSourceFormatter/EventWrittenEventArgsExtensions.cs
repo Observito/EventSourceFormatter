@@ -46,9 +46,7 @@ namespace Observito.Trace.EventSourceFormatter
 
             var ctx = new Payload();
 
-            var source = new EventSourceIdentifier();
-            source.Name = @event.EventSource.Name;
-            source.Guid = @event.EventSource.Guid;
+            var source = new EventSourceIdentifier(@event.EventSource.Name, @event.EventSource.Guid);
 
             ctx.Source = source;
             ctx.EventName = @event.EventName;

@@ -18,13 +18,7 @@ namespace Observito.Trace.EventSourceFormatter
         {
             if (source is null) throw new ArgumentNullException(nameof(source));
 
-            var id = new EventSourceIdentifier
-            {
-                Name = source.Name,
-                Guid = source.Guid
-            };
-
-            return id;
+            return new EventSourceIdentifier(source.Name, source.Guid);
         }
     }
 }
