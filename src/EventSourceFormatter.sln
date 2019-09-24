@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29230.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSourceFormatter", "EventSourceFormatter\EventSourceFormatter.csproj", "{52DB7E36-B3EA-4406-98E9-8BD954871DB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{5747485F-633B-4C89-98FE-2C8F60B01587}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "Sample\Sample.csproj", "{5747485F-633B-4C89-98FE-2C8F60B01587}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,5 +6,5 @@
     /// <typeparam name="TResult">Result type</typeparam>
     /// <param name="payload">Payload to transform</param>
     /// <returns>The transformation result</returns>
-    public delegate TResult PayloadSelector<TResult>(Payload payload);
+    public delegate TResult PayloadSelector<TResult>(PayloadData payload);
 }

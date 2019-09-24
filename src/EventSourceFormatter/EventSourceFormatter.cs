@@ -36,12 +36,12 @@ namespace Observito.Trace.EventSourceFormatter
                 {
                     var value = default(object);
 
-                    if (@event.TryGetPayloadAt(payloadIndex, out var payloadInfo))
+                    if (@event.TryGetPayloadData(payloadIndex, out var data))
                     {
                         if (selector == null)
-                            value = payloadInfo.Value;
+                            value = data.Value;
                         else
-                            value = selector(payloadInfo);
+                            value = selector(data);
                     }
 
                     sequentialPayloadValues.Add(value);
@@ -75,8 +75,9 @@ namespace Observito.Trace.EventSourceFormatter
                 {
                     msg = FormatMessage(@event, selector);
                 }
-                catch
-                { 
+                catch (Exception ex)
+                {
+                    msg = $"(Internal error formatting event message: {ex.Message})";
                 }
             }
 
@@ -144,7 +145,7 @@ namespace Observito.Trace.EventSourceFormatter
 
             foreach (var kv in map)
             {
-                string val = kv.Value.ToString();
+                string val = kv.Value?.ToString();
 
                 sbFmt.AppendLine($"{kv.Key}={val}");
             }
