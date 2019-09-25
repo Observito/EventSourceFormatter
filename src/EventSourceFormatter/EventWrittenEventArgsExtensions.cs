@@ -152,7 +152,6 @@ namespace Observito.Trace.EventSourceFormatter
                     @event.EventSource.GetIdentfier(),
                     @event.EventId,
                     @event.EventName,
-                    //result.Index = payloadIndex
                     index,
                     @event.PayloadNames[index],
                     @event.Payload[index]
