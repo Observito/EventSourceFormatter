@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/observito/EventSourceFormatter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/observito/EventSourceFormatter</RepositoryUrl>
     <PackageTags>EventSource,Formatting,ETW,InProcess,Text</PackageTags>
-    <PackageReleaseNotes>Signed.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added payload metadata handling via attributes.</PackageReleaseNotes>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.pfx</AssemblyOriginatorKeyFile>
     <Version>1.0.3</Version>
