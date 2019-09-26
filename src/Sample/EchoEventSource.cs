@@ -21,7 +21,7 @@ namespace Sample
         }
 
         [Event(Events.Echo, Level = EventLevel.Warning, Task = Tasks.Echo, Opcode = EventOpcode.Info, Message = "Echo: {0}")]
-        public void Echo(string message, [Payload(PayloadType.Sensitive)]string sensitiveMessage) { WriteEvent(Events.Echo, message, sensitiveMessage); }
+        public void Echo(string message, [Payload(PayloadType.Secret, DefaultValue = "<GDPR>")]string sensitiveMessage) { WriteEvent(Events.Echo, message, sensitiveMessage); }
 
         [Event(Events.EchoMore, Level = EventLevel.Warning, Task = Tasks.Echo, Opcode = EventOpcode.Info, Message = "Echo: {0}")]
         public void EchoMore(string message, DateTime date, int count) { WriteEvent(Events.EchoMore, message, date, count); }

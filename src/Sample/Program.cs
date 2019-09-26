@@ -9,7 +9,7 @@ namespace Sample
 {
     class Program
     {
-        private static (PayloadData, PayloadType?)[] _meta;
+        private static (PayloadData, PayloadAttribute)[] _meta;
 
         static async Task Main(string[] args)
         {
@@ -68,7 +68,7 @@ namespace Sample
                 var match = _meta.FirstOrDefault(ev => ev.Item1.EventId == e.EventId && ev.Item1.Name == p.Name && ev.Item2 != null);
                 if (match != default)
                 {
-                    if (match.Item2.Value == PayloadType.Sensitive)
+                    if (match.Item2.Types.Any(value => value == PayloadType.Secret))
                         return $"Omitting sensitive payload value";
                 }
 

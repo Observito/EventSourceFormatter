@@ -11,38 +11,35 @@ namespace Observito.Trace.EventSourceFormatter
         /// <summary>
         /// Creates a new payload attribute.
         /// </summary>
-        /// <param name="type">Payload type</param>
-        public PayloadAttribute(PayloadType @type)
+        /// <param name="types">Payload types</param>
+        public PayloadAttribute(params PayloadType[] types)
         {
-            Type = @type;
+            Types = types ?? new PayloadType[] { };
         }
-        
+
         /// <summary>
-        /// Payload type.
+        /// Payload types.
         /// </summary>
-        public PayloadType Type { get; }
+        public PayloadType[] Types { get; }
+
+        /// <summary>
+        /// Suggested default value.
+        /// </summary>
+        public object DefaultValue { get; set; }
     }
 
     /// <summary>
-    /// Payload type.
+    /// Characteristic of a payload type. This is useful for e.g. string-encoded values
+    /// that are parseable into specialized types.
     /// </summary>
     public enum PayloadType
     {
-        /// <summary>
-        /// Sensitive information, e.g. personal data.
-        /// </summary>
-        Sensitive,
-
-        //FileName,
-
-        /// <summary>
-        /// URL string.
-        /// </summary>
-        Url,
-
-        /// <summary>
-        /// JSON string.
-        /// </summary>
+        Secret,
+        FileName,
+        Uri,
+        Base64,
         Json,
+        Xml,
+        Sql,
     }
 }

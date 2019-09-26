@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Linq;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace Observito.Trace.EventSourceFormatter
@@ -29,7 +30,12 @@ namespace Observito.Trace.EventSourceFormatter
         /// </summary>
         /// <param name="source">Event source to inspect</param>
         /// <returns>Payload metadata</returns>
-        public static IEnumerable<(PayloadData, PayloadType?)> GetPayloadMetadata(this EventSource source)
+        /// <remarks>
+        /// This method is somewhat expensive as it does both manifest XML generation and reflective
+        /// inspection of the event source. So take care to cache this data whenever used in
+        /// performance sensitive scenarios.
+        /// </remarks>
+        public static IEnumerable<(PayloadData, PayloadAttribute)> GetPayloadMetadata(this EventSource source)
         {
             static (int id, string name)[] GetEvents(Type type)
             {
@@ -79,21 +85,32 @@ namespace Observito.Trace.EventSourceFormatter
                 var payloadIndex = 0;
                 foreach (var p in e.Payload)
                 {
-                    var attr = p.CustomAttributes.FirstOrDefault(at => at.AttributeType == typeof(PayloadAttribute));
-                    PayloadType? payloadType = null;
-                    if (attr != null)
+                    var attrData = p.CustomAttributes.FirstOrDefault(at => at.AttributeType == typeof(PayloadAttribute));
+                    PayloadAttribute attr = default;
+                    if (attrData != null)
                     {
-                        foreach (var arg in attr.ConstructorArguments)
+                        try
                         {
-                            if (arg.ArgumentType == typeof(PayloadType))
-                            {
-                                payloadType = (PayloadType)arg.Value;
-                                break;
-                            }
+                            var rawArgs = (attrData.ConstructorArguments[0].Value as IEnumerable<CustomAttributeTypedArgument>).ToArray();
+                            var args = rawArgs.Select(ra => ra.Value).Cast<PayloadType>().ToArray();
+
+                            var namedArgs = attrData.NamedArguments;
+
+                            //attr.Constructor.Invoke(args);
+
+                            attr = new PayloadAttribute(args);
+
+                            var defaultValue = namedArgs.Where(na => na.MemberName == nameof(PayloadAttribute.DefaultValue)).Select(na => na.TypedValue.Value).FirstOrDefault();
+
+                            attr.DefaultValue = defaultValue;
+                        }
+                        catch
+                        { 
+                            // oops
                         }
                     }
                     var pd = new PayloadData(id, e.Id, e.Name, payloadIndex, p.Name, null);
-                    yield return (pd, payloadType);
+                    yield return (pd, attr);
                     payloadIndex++;
                 }
             }
